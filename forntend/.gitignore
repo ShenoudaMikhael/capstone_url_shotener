@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Environment files
+.env.local
+.env.production.local
+# Note: .env and .env.production are tracked for this project
+# In a real project, you might want to exclude them
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
