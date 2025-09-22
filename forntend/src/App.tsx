@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Header, Footer } from "./components/layout"
 import { UrlShortenerForm } from "./components/url-shortener-form"
 import { UrlResult } from "./components/url-result"
+import { UrlStatsChecker } from "./components/url-stats-checker"
 import { FeaturesSection } from "./components/features-section"
 import { ApiTestComponent } from "./components/api-test"
 import { isDevelopmentMode } from "./lib/config"
@@ -64,6 +65,24 @@ function App() {
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+        </section>
+
+        {/* URL Stats Checker Section */}
+        <section id="stats" className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Check URL Statistics
+              </h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Already have a short URL? Enter the short code to view detailed analytics, 
+                click counts, and other useful statistics.
+              </p>
+            </div>
+            <div className="max-w-4xl mx-auto">
+              <UrlStatsChecker />
             </div>
           </div>
         </section>

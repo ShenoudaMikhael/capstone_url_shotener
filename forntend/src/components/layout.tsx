@@ -26,6 +26,12 @@ export function Header() {
               Features
             </a>
             <a 
+              href="#stats" 
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+            >
+              Check Stats
+            </a>
+            <a 
               href="#analytics" 
               className="text-gray-600 hover:text-gray-900 transition-colors"
             >
