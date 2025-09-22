@@ -1,4 +1,4 @@
-import { BarChart3, QrCode, Shield, Clock, Link2, Zap } from "lucide-react"
+import { BarChart3, Shield, Link2, Zap } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export function FeaturesSection() {
@@ -14,24 +14,14 @@ export function FeaturesSection() {
       description: "Create memorable, branded links with your own custom short codes."
     },
     {
-      icon: <QrCode className="h-8 w-8 text-purple-600" />,
-      title: "QR Code Generation",
-      description: "Automatic QR code generation for easy mobile sharing and access."
-    },
-    {
       icon: <BarChart3 className="h-8 w-8 text-orange-600" />,
-      title: "Analytics Dashboard",
-      description: "Track clicks, locations, devices, and more with detailed analytics."
+      title: "Click Analytics",
+      description: "Track click counts and view detailed statistics for your shortened URLs."
     },
     {
       icon: <Shield className="h-8 w-8 text-red-600" />,
-      title: "Privacy & Security",
-      description: "Optional password protection and privacy-compliant tracking."
-    },
-    {
-      icon: <Clock className="h-8 w-8 text-indigo-600" />,
-      title: "Expiration Control",
-      description: "Set expiration dates for temporary links and time-sensitive content."
+      title: "Reliable & Secure",
+      description: "Built with modern technologies and best practices for security and reliability."
     }
   ]
 
@@ -43,11 +33,11 @@ export function FeaturesSection() {
             Powerful Features
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Everything you need to create, manage, and track your shortened URLs with enterprise-grade features.
+            Core features for creating, managing, and tracking your shortened URLs with modern web technologies.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => (
             <Card key={index} className="border-0 shadow-sm hover:shadow-md transition-shadow">
               <CardHeader className="text-center">
