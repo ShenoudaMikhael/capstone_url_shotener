@@ -18,7 +18,7 @@ A full-stack URL shortening service built with Node.js, Express, React, and MySQ
 - **MySQL** database with **Sequelize 6.37.7** ORM
 - **CORS** for cross-origin requests
 - **dotenv** for environment configuration
-- **express-validator** for input validation
+- **Built-in validation** for input validation and URL format checking
 
 ### Frontend
 - **React 18** with **TypeScript**
@@ -146,26 +146,26 @@ capstone_url_shotener/
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `POST` | `/api/urls/shorten` | Create a shortened URL |
+| `POST` | `/urls/shorten` | Create a shortened URL |
 | `GET` | `/:shortCode` | Redirect to original URL |
-| `GET` | `/api/urls/stats/:shortCode` | Get URL statistics |
+| `GET` | `/urls/stats/:shortCode` | Get URL statistics |
 | `GET` | `/health` | Health check endpoint |
 
 ### API Examples
 
 **Shorten a URL:**
 ```bash
-curl -X POST http://localhost:3000/api/urls/shorten \
+curl -X POST http://localhost:3000/urls/shorten \
   -H "Content-Type: application/json" \
   -d '{
-    "originalUrl": "https://www.example.com/very/long/url",
-    "customCode": "example" // optional
+    "url": "https://www.example.com/very/long/url",
+    "customCode": "example"
   }'
 ```
 
 **Get URL Statistics:**
 ```bash
-curl -X GET http://localhost:3000/api/urls/stats/abc123
+curl -X GET http://localhost:3000/urls/stats/abc123
 ```
 
 **Access Shortened URL:**
