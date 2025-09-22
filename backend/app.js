@@ -1,7 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
-const { sequelize, testConnection } = require('./config/database');
+const { testConnection, syncDatabase } = require('./models');
 const routes = require('./routes');
 
 const app = express();
@@ -28,8 +28,8 @@ app.use((req, res, next) => {
 // Routes
 app.use('/', routes);
 
-// 404 handler
-app.use('*', (req, res) => {
+// 404 handler - must be after all other routes
+app.use((req, res, next) => {
   res.status(404).json({
     error: 'Endpoint not found',
     code: 'NOT_FOUND',
@@ -52,13 +52,13 @@ async function startServer() {
         // Test database connection
         await testConnection();
         
-        // Sync database (creates tables if they don't exist)
-        await sequelize.sync();
-        console.log('Database synchronized successfully.');
+        // Sync database models (creates/updates tables if they don't exist)
+        await syncDatabase();
         
         // Start the server
         app.listen(port, () => {
             console.log(`Express app listening at http://localhost:${port}`);
+            console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
         });
     } catch (error) {
         console.error('Failed to start server:', error);

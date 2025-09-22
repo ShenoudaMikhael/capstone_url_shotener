@@ -4,7 +4,7 @@
 
 export const config = {
   // API base URL for backend calls
-  apiBaseUrl: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api',
+  apiBaseUrl: import.meta.env.VITE_API_BASE_URL || '/api',
   
   // Domain for shortened URLs
   shortDomain: import.meta.env.VITE_SHORT_DOMAIN || 'localhost:3000',

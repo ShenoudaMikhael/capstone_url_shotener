@@ -6,6 +6,10 @@
   "scripts": {
     "start": "node app.js",
     "dev": "node app.js",
+    "db:sync": "node sync-db.js sync",
+    "db:alter": "node sync-db.js alter",
+    "db:force": "node sync-db.js force",
+    "db:status": "node db-status.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

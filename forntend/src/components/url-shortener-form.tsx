@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Link, Loader2 } from "lucide-react"
-import { generateShortUrl } from "@/lib/config"
+import { getApiUrl } from "@/lib/config"
 
 const urlSchema = z.object({
   url: z.string().url("Please enter a valid URL"),
@@ -20,6 +20,9 @@ interface ShortenedUrl {
   shortCode: string
   originalUrl: string
   shortUrl: string
+  createdAt?: string
+  clickCount?: number
+  existing?: boolean
   qrCode?: string
 }
 
@@ -29,6 +32,7 @@ interface UrlShortenerFormProps {
 
 export function UrlShortenerForm({ onUrlShortened }: UrlShortenerFormProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const form = useForm<UrlFormData>({
     resolver: zodResolver(urlSchema),
@@ -40,23 +44,47 @@ export function UrlShortenerForm({ onUrlShortened }: UrlShortenerFormProps) {
 
   const onSubmit = async (data: UrlFormData) => {
     setIsLoading(true)
+    setError(null) // Clear previous errors
     
     try {
-      // TODO: Replace with actual API call to getApiUrl('/urls/shorten')
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      const apiUrl = getApiUrl('/urls/shorten');
+      console.log("Calling API URL:", apiUrl);
       
-      const shortCode = data.customCode || Math.random().toString(36).substring(2, 8)
-      const mockResponse: ShortenedUrl = {
-        shortCode,
-        originalUrl: data.url,
-        shortUrl: generateShortUrl(shortCode),
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          url: data.url,
+          customCode: data.customCode
+        })
+      });
+
+      console.log("API Response:", response);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to shorten URL');
       }
+
+      const result = await response.json();
       
-      onUrlShortened(mockResponse)
-      form.reset()
+      // Transform the backend response to match the expected interface
+      const shortenedUrl: ShortenedUrl = {
+        shortCode: result.shortCode,
+        originalUrl: result.originalUrl,
+        shortUrl: result.shortUrl,
+        createdAt: result.createdAt,
+        clickCount: result.clickCount,
+        existing: result.existing,
+      };
+      
+      onUrlShortened(shortenedUrl);
+      form.reset();
     } catch (error) {
-      console.error("Error shortening URL:", error)
+      console.error("Error shortening URL:", error);
+      setError(error instanceof Error ? error.message : 'An unexpected error occurred');
     } finally {
       setIsLoading(false)
     }
@@ -74,6 +102,11 @@ export function UrlShortenerForm({ onUrlShortened }: UrlShortenerFormProps) {
         </p>
       </CardHeader>
       <CardContent>
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
+            <p className="text-red-700 text-sm">{error}</p>
+          </div>
+        )}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField

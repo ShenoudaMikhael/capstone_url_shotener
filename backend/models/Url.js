@@ -11,7 +11,8 @@ const Url = sequelize.define('Url', {
     type: DataTypes.TEXT,
     allowNull: false,
     validate: {
-      isUrl: true
+      isUrl: true,
+      len: [1, 2048] // Most browsers support URLs up to 2048 characters
     }
   },
   shortCode: {
@@ -53,10 +54,15 @@ const Url = sequelize.define('Url', {
       fields: ['shortCode']
     },
     {
-      fields: ['originalUrl']
+      name: 'urls_original_url_prefix',
+      fields: [{ name: 'originalUrl', length: 255 }], // Index first 255 characters
+      using: 'BTREE'
     },
     {
       fields: ['createdAt']
+    },
+    {
+      fields: ['isActive']
     }
   ]
 });

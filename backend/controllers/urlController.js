@@ -162,7 +162,7 @@ class UrlController {
           code: 'URL_NOT_FOUND'
         });
       }
-
+      
       res.json({
         shortCode: urlRecord.shortCode,
         originalUrl: urlRecord.originalUrl,
